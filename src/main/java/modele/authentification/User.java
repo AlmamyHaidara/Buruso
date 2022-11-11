@@ -100,7 +100,7 @@ public class User {
         this.photo = photo;
     }
     
-    public static void files() throws IOException{
+    public void files() throws IOException{
         File file = new File("/home/almamy/Documents/MyProject/Buruso/src/main/java/modele/authentification/folderloginFiles.txt");
         if(!file.exists()){
             try{
@@ -119,7 +119,6 @@ public class User {
             
         }
       
-        
     }
     
 }
