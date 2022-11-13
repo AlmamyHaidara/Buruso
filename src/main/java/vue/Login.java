@@ -5,15 +5,11 @@
 package vue;
 
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -91,16 +87,11 @@ public class Login extends javax.swing.JFrame {
 
         pass_word_field.setFont(new java.awt.Font("Liberation Sans", 0, 15)); // NOI18N
         pass_word_field.setBorder(null);
-        pass_word_field.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pass_word_fieldActionPerformed(evt);
-            }
-        });
         framePanel.add(pass_word_field, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 180, 20));
 
         btn_log_up.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
         btn_log_up.setText("Sign up");
-        btn_log_up.setCursor(new java.awt.Cursor(java.awt.Cursor.SW_RESIZE_CURSOR));
+        btn_log_up.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btn_log_up.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_log_upActionPerformed(evt);
@@ -131,16 +122,14 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pass_word_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pass_word_fieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_pass_word_fieldActionPerformed
-
     private void forget_pass_wordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forget_pass_wordActionPerformed
         // TODO add your handling code here:
+        PasswordForget forget = new PasswordForget();
+        forget.show();
+        dispose();
     }//GEN-LAST:event_forget_pass_wordActionPerformed
 
     private void btn_Log_inActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Log_inActionPerformed
-        // TODO add your handling code here:
         File file = new File("/home/almamy/Documents/MyProject/Buruso/src/main/java/modele/authentification/LogUp.txt");
         if(!file.exists()){
             try {
@@ -149,37 +138,37 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{   
-            
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file) ,"UTF-8"))) {
-                    String reade = reader.readLine(); 
-                    ArrayList<String> read =new ArrayList<String>();
-                    while(reade != null){
-                     read.add(reade);
-                     reade = reader.readLine();
-                }
-                    
-                    String lpass= this.pass_word_field.getText();
-                    String luser = this.usernamefield.getText();
-                    
-                    for(int i = 0; i < read.size();i++){
-                        if((lpass == read.get(i)) == (luser == read.get(i))){
-                          System.out.println(read.get(i));
-                        }
+            try {
+                Scanner sc = new Scanner(file);
+                String str = "";
+                String str2 = "";
+                String use = this.usernamefield.getText();
+                String pass = this.pass_word_field.getText();
+                while(sc.hasNext()){
+                    String mot = sc.next();
+                    String mot2 = sc.next();
+
+                    if(mot.equals(use)){System.out.println(mot);
+                        str2 = mot;
                     }
-                        if(( this.pass_word_field.getText()).equals("") || (this.usernamefield.getText()).equals("")){
-                            JOptionPane.showMessageDialog(this, "Please fill in the fields correctly");
-                            
-                        }else if (read.equals((this.usernamefield.getText()))  && read.equals(( this.pass_word_field.getText())) ) {
-                            JOptionPane.showMessageDialog(this, "Connexion is success");
-                            Log_up log_up = new Log_up();
-                            log_up.show();
-                            dispose();
-                            
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Your username or passWord is avalable");
-                        }
-                    
-            } catch (IOException ex) {
+                    if(mot2.equals(pass)){  System.out.println(mot2);
+                        str = mot2;
+                    }
+                }
+
+                   if((use).equals("") || (pass).equals("")){
+                        JOptionPane.showMessageDialog(this, "Please fill in the fields correctly");
+
+                    }else if (str2.equals((use))  && str.equals((pass)) ) {
+                        JOptionPane.showMessageDialog(this, "Connexion is success");
+                        Log_up log_up = new Log_up();
+                        log_up.show();
+                        dispose();
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Your username or passWord is avalable");
+                    }
+               } catch (FileNotFoundException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
