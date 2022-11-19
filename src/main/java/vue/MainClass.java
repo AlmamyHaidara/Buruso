@@ -4,6 +4,7 @@
  */
 package vue;
 
+import modele.authentification.Login;
 import java.io.IOException;
 /**
  *
@@ -14,7 +15,7 @@ public class MainClass {
         Login log = new Login();
           
           java.awt.EventQueue.invokeLater(() -> {
-                 log.setVisible(true );
+             log.setVisible(true );
                 
             });
           
